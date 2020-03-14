@@ -17,7 +17,7 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
 	name = member.name
-	await member.send(botinfo.wm(name))
+	await member.send(botinfo.welcome(name))
 
 
 
