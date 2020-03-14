@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #Customise fields, then rename to botinfo.py
 token = "" # Bot token from Discord developer dashboard goes here (str)
 guild_id = # (int)
