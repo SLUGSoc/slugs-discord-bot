@@ -22,7 +22,7 @@ async def on_member_join(member):
         rules_channel = client.get_channel(botinfo.rules_channel_id)
         rules_mention = rules_channel.mention
         mention = member.mention
-        await join_channel.send(botinfo.gatekeep(user, rules_mention))
+        await join_channel.send(botinfo.gatekeep(mention, rules_mention))
 
 @client.event
 async def on_message(message):
