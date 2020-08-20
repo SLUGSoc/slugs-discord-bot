@@ -18,8 +18,11 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-	name = member.name
-	await member.send(botinfo.welcome(name))
+        join_channel = client.get_channel(botinfo.join_channel_id)
+        rules_channel = client.get_channel(botinfo.rules_channel_id)
+        rules_mention = rules_channel.mention
+        mention = member.mention
+        await join_channel.send(botinfo.gatekeep(user, rules_mention))
 
 @client.event
 async def on_message(message):
@@ -31,7 +34,9 @@ async def on_message(message):
 	
 	member = message.author
 	name = member.name
-	nick = member.display_name
+	mention = member.mention
+
+	main_channel = client.get_channel(botinfo.main_channel_id)
 	
 	if 'would you kindly' in content.lower():
 		if channel == client.get_channel(botinfo.join_channel_id):
@@ -41,6 +46,7 @@ async def on_message(message):
 			roles = member.roles
 			if member_role not in roles:
 				await member.add_roles(member_role)
+				await main_channel.send(botinfo.welcome(mention))
 
 token = botinfo.token
 client.run(token)
