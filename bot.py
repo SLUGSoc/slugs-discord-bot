@@ -46,29 +46,37 @@ async def on_message(message):
                 await main_channel.send(botinfo.welcome(member.mention))
 
 # Logging Channel
+@client.event
 async def on_raw_message_delete(payload):
+    print("Message deleted")
     logging_channel = client.get_channel(botinfo.logging_channel_id)
     
     message = payload.cached_message
-    message_id = payload.message_id
-    channel = client.get_channel(channel_id)
+    print(type(message))
+    channel = client.get_channel(payload.channel_id)
 
-    if type(message) == None:
-        delete_string = ">>> ```css\n> [MESSAGE DELETED]\n> A message was deleted from {0}, but this message was not found in the message cache.\n> - Message ID: {1}```".format(channel.mention, message_id)
+    if message is None:
+        delete_string = ">>> ```css\n[MESSAGE DELETED] [Message ID:] {0}```A message was deleted from {1}, but this message was not found in the message cache.\n".format(payload.message_id, channel.mention)
     else:
-        delete_string = ">>> ```css\n>[MESSAGE DELETED]\n> The following message was deleted from {0}:\n> {1}\n> [Message ID:] {2}```".format(channel.mention, message, message_id)
+        delete_string = ">>> ```css\n[MESSAGE DELETED] [Message ID:] {0} [User ID:] {1}```The following message from **{2}** was deleted from {3}:\n*{4}*".format(message.id, message.author.id, str(message.author), channel.mention, message.content)
     await logging_channel.send(delete_string)
 
+@client.event
 async def on_message_edit(before, after):
+    print("Message edited")
     logging_channel = client.get_channel(botinfo.logging_channel_id)
+
+    channel = after.channel
     if before.content == after.content:
         return # Edit detects many subtle changes to the message object, but we only care about the actual words being changed
-    edit_string = '>>> ```bash\n> "MESSAGE EDITED"\n> The following message was edited in {0}:\n> "Before:" {1}\n> "After:" {2}\n> "Message ID:" {3}'.format(channel.mention, before.content, after.content, after_id)
+    edit_string = '>>> ```css\n"MESSAGE EDITED" "Message ID:" {0}```The following message by **{1}** was edited in {2}:\n\n**Before:**\n*{3}*\n\n**After:**\n*{4}*\n'.format(after.id, (after.author), channel.mention, before.content, after.content)
     await logging_channel.send(edit_string)
 
+@client.event
 async def on_member_remove(member):
+    print("User left")
     logging_channel = client.get_channel(botinfo.logging_channel_id)
-    leave_string = ">>> ```ini\n> [USER LEFT]\n> {0} has left the server.\n> [User ID:] {1}".format(member.mention, member.id)
+    leave_string = ">>> ```ini\n[USER LEFT] [User ID:] {1}```{0} has left the server.".format(member.mention, member.id)
     await logging_channel.send(leave_string)
 
 token = botinfo.token
