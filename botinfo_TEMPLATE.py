@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 
-#Customise fields, then rename to botinfo.py
-token = "" # Bot token from Discord developer dashboard goes here (str)
-guild_id = # (int)
-join_channel_id = # (int)
-bot_channel_id = # (int)
-member_role_id = # (int)
+token = "TOKEN HERE"
+guild_id = 0
+main_channel_id = 0
+join_channel_id = 0
+bot_channel_id = 0
+rules_channel_id = 0
+logging_channel_id = 0
+member_role_id = 0
 
-def welcome(name):
-	return "".format(name) # Welcome message users are sent on joining goes here (str)
+def gatekeep(user, rules):
+        return ""
+
+def welcome(user):
+        return ""
