@@ -48,11 +48,9 @@ async def on_message(message):
 # Logging Channel
 @client.event
 async def on_raw_message_delete(payload):
-    print("Message deleted")
     logging_channel = client.get_channel(botinfo.logging_channel_id)
     
     message = payload.cached_message.replace("@","*@*") # Stops logged messages mentioning people
-    print(type(message))
     channel = client.get_channel(payload.channel_id)
 
     if message is None:
@@ -63,7 +61,6 @@ async def on_raw_message_delete(payload):
 
 @client.event
 async def on_message_edit(before, after):
-    print("Message edited")
     logging_channel = client.get_channel(botinfo.logging_channel_id)
     message_bef = before.content.cached_message.replace("@","*@*")
     message_aft = after.content.cached_message.replace("@","*@*")
@@ -76,7 +73,6 @@ async def on_message_edit(before, after):
 
 @client.event
 async def on_member_remove(member):
-    print("User left")
     logging_channel = client.get_channel(botinfo.logging_channel_id)
     leave_string = ">>> ```ini\n[USER LEFT] [User ID:] {1}```{0} has left the server.".format(member.mention, member.id)
     await logging_channel.send(leave_string)
