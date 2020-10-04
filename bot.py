@@ -62,8 +62,8 @@ async def on_raw_message_delete(payload):
 @client.event
 async def on_message_edit(before, after):
     logging_channel = client.get_channel(botinfo.logging_channel_id)
-    message_bef = before.content.cached_message.replace("@","*@*")
-    message_aft = after.content.cached_message.replace("@","*@*")
+    message_bef = before.content.replace("@","*@*")
+    message_aft = after.content.replace("@","*@*")
 
     channel = after.channel
     if before.content == after.content:
