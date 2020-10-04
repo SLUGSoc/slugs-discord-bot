@@ -51,7 +51,7 @@ async def on_raw_message_delete(payload):
     print("Message deleted")
     logging_channel = client.get_channel(botinfo.logging_channel_id)
     
-    message = payload.cached_message
+    message = payload.cached_message.replace("@","*@*") # Stops logged messages mentioning people
     print(type(message))
     channel = client.get_channel(payload.channel_id)
 
@@ -65,11 +65,13 @@ async def on_raw_message_delete(payload):
 async def on_message_edit(before, after):
     print("Message edited")
     logging_channel = client.get_channel(botinfo.logging_channel_id)
+    message_bef = before.content.cached_message.replace("@","*@*")
+    message_aft = after.content.cached_message.replace("@","*@*")
 
     channel = after.channel
     if before.content == after.content:
         return # Edit detects many subtle changes to the message object, but we only care about the actual words being changed
-    edit_string = '>>> ```css\n"MESSAGE EDITED" "Message ID:" {0}```The following message by **{1}** was edited in {2}:\n\n**Before:**\n*{3}*\n\n**After:**\n*{4}*\n'.format(after.id, (after.author), channel.mention, before.content, after.content)
+    edit_string = '>>> ```css\n"MESSAGE EDITED" "Message ID:" {0}```The following message by **{1}** was edited in {2}:\n\n**Before:**\n*{3}*\n\n**After:**\n*{4}*\n'.format(after.id, (after.author), channel.mention, message_bef, message_aft)
     await logging_channel.send(edit_string)
 
 @client.event
