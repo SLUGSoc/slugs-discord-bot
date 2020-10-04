@@ -50,13 +50,14 @@ async def on_message(message):
 async def on_raw_message_delete(payload):
     logging_channel = client.get_channel(botinfo.logging_channel_id)
     
-    message = payload.cached_message.replace("@","*@*") # Stops logged messages mentioning people
+    message = payload.cached_message
     channel = client.get_channel(payload.channel_id)
 
     if message is None:
         delete_string = ">>> ```css\n[MESSAGE DELETED] [Message ID:] {0}```A message was deleted from {1}, but this message was not found in the message cache.\n".format(payload.message_id, channel.mention)
     else:
-        delete_string = ">>> ```css\n[MESSAGE DELETED] [Message ID:] {0} [User ID:] {1}```The following message from **{2}** was deleted from {3}:\n*{4}*".format(message.id, message.author.id, str(message.author), channel.mention, message.content)
+        noment_message = message.content.replace("@","*@*") # Stops logged messages mentioning people
+        delete_string = ">>> ```css\n[MESSAGE DELETED] [Message ID:] {0} [User ID:] {1}```The following message from **{2}** was deleted from {3}:\n*{4}*".format(message.id, message.author.id, str(message.author), channel.mention, noment_message)
     await logging_channel.send(delete_string)
 
 @client.event
