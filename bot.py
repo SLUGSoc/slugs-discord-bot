@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import discord
-import botinfo
+import botinfo # Info file containing sensitive info and customized settings
 import sqlite3
 import time
 import os
@@ -20,6 +20,7 @@ async def on_ready():
 async def on_member_join(member):
     join_channel = client.get_channel(botinfo.join_channel_id)
     rules_channel = client.get_channel(botinfo.rules_channel_id)
+    
     await join_channel.send(botinfo.gatekeep(member.mention, rules_channel.mention))
 
 @client.event
@@ -29,13 +30,11 @@ async def on_message(message):
 
     channel = message.channel
     content = message.content
-
     member = message.author
     name = member.name
-
     main_channel = client.get_channel(botinfo.main_channel_id)
 
-    if 'would you kindly' in content.lower():
+    if botinfo.challenge_response in content.lower(): # I couldn't resist
         if channel == client.get_channel(botinfo.join_channel_id):
             guild = client.get_guild(botinfo.guild_id)
             member_role = guild.get_role(botinfo.member_role_id)
@@ -53,16 +52,17 @@ async def on_raw_message_delete(payload):
     message = payload.cached_message
     channel = client.get_channel(payload.channel_id)
 
-    if message is None:
+    if message is None: # Occurs when message cannot be retrieved message cache
         delete_string = ">>> ```css\n[MESSAGE DELETED] [Message ID:] {0}```A message was deleted from {1}, but this message was not found in the message cache.\n".format(payload.message_id, channel.mention)
     else:
-        noment_message = message.content.replace("@","*@*") # Stops logged messages mentioning people
+        noment_message = message.content.replace("@","*@*") # Stops logged messages mentioning users
         delete_string = ">>> ```css\n[MESSAGE DELETED] [Message ID:] {0} [User ID:] {1}```The following message from **{2}** was deleted from {3}:\n*{4}*".format(message.id, message.author.id, str(message.author), channel.mention, noment_message)
     await logging_channel.send(delete_string)
 
 @client.event
 async def on_message_edit(before, after):
     logging_channel = client.get_channel(botinfo.logging_channel_id)
+    
     message_bef = before.content.replace("@","*@*")
     message_aft = after.content.replace("@","*@*")
 
@@ -75,6 +75,7 @@ async def on_message_edit(before, after):
 @client.event
 async def on_member_remove(member):
     logging_channel = client.get_channel(botinfo.logging_channel_id)
+    
     leave_string = ">>> ```ini\n[USER LEFT] [User ID:] {1}```{0} has left the server.".format(member.mention, member.id)
     await logging_channel.send(leave_string)
 

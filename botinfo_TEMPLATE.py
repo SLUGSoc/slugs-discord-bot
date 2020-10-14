@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 
-token = "TOKEN HERE"
-guild_id = 0
-main_channel_id = 0
-join_channel_id = 0
-bot_channel_id = 0
-rules_channel_id = 0
-logging_channel_id = 0
-member_role_id = 0
+token = "" # str, secret token associated with application
+guild_id = 0 # int, id of operating server
+join_channel_id = 0 # int, id of channel where gatekeep challenge is issued
+intro_channel_id = 0 # int, id of channel where users are introduced after correct response
+bot_channel_id = 0 # int, id of channel where bot should interact with users (does nothing atm)
+rules_channel_id = 0 # int, id of channel that users are guided to in the challenge
+logging_channel_id = 0 # int, id of channel where all logging messages are sent
+member_role_id = 0 # int, id of server role that is given to users who successfully respond to the challenge
 
-def gatekeep(user, rules):
-        return ""
+def welcome(user): # Message sent in intro channel after a successful response from user
+        return "Welcome to this server, {0}".format(user)
 
-def welcome(user):
-        return ""
+def gatekeep(user, rules): # Message sent in join channel to user upon joining
+        return "Hi {0}. Go to {1} for server rules, the respond with **'open sesame'** or whatever, this is just an example.".format(user,rules)
+
+challenge_response = 'open sesame'
