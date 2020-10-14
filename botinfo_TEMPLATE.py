@@ -13,6 +13,6 @@ def welcome(user): # Message sent in intro channel after a successful response f
         return "Welcome to this server, {0}".format(user)
 
 def gatekeep(user, rules): # Message sent in join channel to user upon joining
-        return "Hi {0}. Go to {1} for server rules, the respond with **'open sesame'** or whatever, this is just an example.".format(user,rules)
+        return "Hi {0}. Go to {1} for server rules, then respond with **'open sesame'** or whatever, this is just an example.".format(user,rules)
 
 challenge_response = 'open sesame'
