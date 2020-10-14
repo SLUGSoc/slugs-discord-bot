@@ -32,7 +32,7 @@ async def on_message(message):
     content = message.content
     member = message.author
     name = member.name
-    main_channel = client.get_channel(botinfo.main_channel_id)
+    intro_channel = client.get_channel(botinfo.intro_channel_id)
 
     if botinfo.challenge_response in content.lower(): # I couldn't resist
         if channel == client.get_channel(botinfo.join_channel_id):
@@ -42,7 +42,7 @@ async def on_message(message):
             roles = member.roles
             if member_role not in roles:
                 await member.add_roles(member_role)
-                await main_channel.send(botinfo.welcome(member.mention))
+                await intro_channel.send(botinfo.welcome(member.mention))
 
 # Logging Channel
 @client.event
