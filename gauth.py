@@ -56,5 +56,6 @@ def generate_codes(choice):
     hotp = (struct.unpack(">I", h[o:o + 4])[0] & 0x7fffffff) % 1000000
     totp = str(hotp).zfill(6)
     return(totp)
-    
-choose_secret()
+
+if __name__ == "__main__":
+    choose_secret()
