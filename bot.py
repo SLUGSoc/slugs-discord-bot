@@ -6,6 +6,7 @@ import sqlite3
 import time
 import os
 import gauth
+from discord.ext import commands
 
 start_time = time.localtime()
 print(os.getcwd())
@@ -33,7 +34,6 @@ async def on_message(message):
     content = message.content
     member = message.author
     name = member.name
-    intro_channel = client.get_channel(botinfo.intro_channel_id)
 
     if botinfo.challenge_response in content.lower(): # I couldn't resist
         if channel == client.get_channel(botinfo.join_channel_id):
@@ -42,6 +42,8 @@ async def on_message(message):
 
             roles = member.roles
             if member_role not in roles:
+                intro_channel = client.get_channel(botinfo.intro_channel_id)
+                
                 await member.add_roles(member_role)
                 await intro_channel.send(botinfo.welcome(member.mention))
 
@@ -79,6 +81,13 @@ async def on_member_remove(member):
     
     leave_string = ">>> ```ini\n[USER LEFT] [User ID:] {1}```{0} has left the server.".format(member.mention, member.id)
     await logging_channel.send(leave_string)
+
+bot = commands.Bot(command_prefix='RON! ')
+
+@bot.command()
+async def auth(context, arg):
+    logging_channel = client.get_channel(botinfo.logging_channel_id)
+    member = context.author
 
 token = botinfo.token
 client.run(token)
