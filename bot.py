@@ -5,6 +5,7 @@ import botinfo # Info file containing sensitive info and customized settings
 import sqlite3
 import time
 import os
+import gauth
 
 start_time = time.localtime()
 print(os.getcwd())
