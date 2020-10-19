@@ -85,6 +85,10 @@ async def on_member_remove(member):
 bot = commands.Bot(command_prefix='RON! ')
 
 @bot.command()
+async def test(ctx, arg):
+    await ctx.send(arg)
+
+@bot.command()
 async def auth(context, arg):
     logging_channel = client.get_channel(botinfo.logging_channel_id)
     member = context.author
