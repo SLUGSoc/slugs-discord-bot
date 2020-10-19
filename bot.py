@@ -86,10 +86,12 @@ bot = commands.Bot(command_prefix='%')
 
 @bot.command()
 async def test(ctx, arg):
+    print("test")
     await ctx.send(arg)
 
 @bot.command()
 async def auth(context, arg):
+    print("auth")
     logging_channel = client.get_channel(botinfo.logging_channel_id)
     member = context.author
     data = gauth.get_database()
@@ -100,6 +102,7 @@ async def auth(context, arg):
         names.append(d[0])
 
     if arg.lower() == "list":
+        print("Auth List")
         options_list = list()
         for o in options:
             option = "**{})** {}".format(o, names[int(o)])
