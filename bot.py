@@ -12,7 +12,7 @@ start_time = time.localtime()
 print(os.getcwd())
 print(time.asctime(start_time))
 
-client = discord.Client()
+client = commands.Bot(command_prefix='%')
 
 @client.event
 async def on_ready():
@@ -82,18 +82,11 @@ async def on_member_remove(member):
     leave_string = ">>> ```ini\n[USER LEFT] [User ID:] {1}```{0} has left the server.".format(member.mention, member.id)
     await logging_channel.send(leave_string)
 
-bot = commands.Bot(command_prefix='%')
-
-@bot.command()
-async def test(ctx, arg):
-    print("test")
-    await ctx.send(arg)
-
-@bot.command()
+@client.command()
 async def auth(context, arg):
-    print("auth")
     logging_channel = client.get_channel(botinfo.logging_channel_id)
     member = context.author
+    
     data = gauth.get_database()
     options = list()
     names = list()
