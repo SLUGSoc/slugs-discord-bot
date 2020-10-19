@@ -82,7 +82,7 @@ async def on_member_remove(member):
     leave_string = ">>> ```ini\n[USER LEFT] [User ID:] {1}```{0} has left the server.".format(member.mention, member.id)
     await logging_channel.send(leave_string)
 
-bot = commands.Bot(command_prefix='RON! ')
+bot = commands.Bot(command_prefix='%')
 
 @bot.command()
 async def test(ctx, arg):
