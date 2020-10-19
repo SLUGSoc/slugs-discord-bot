@@ -88,6 +88,26 @@ bot = commands.Bot(command_prefix='RON! ')
 async def auth(context, arg):
     logging_channel = client.get_channel(botinfo.logging_channel_id)
     member = context.author
+    data = gauth.get_database()
+    options = list()
+    names = list()
+    for d in data:
+        options.append(str(len(options)))
+        names.append(d[0])
+
+    if arg.lower() == "list":
+        options_list = list()
+        for o in options:
+            option = "**{})** {}".format(o, names[int(o)])
+            options_list.append(option)
+        options_string = '\n'.join(options_list)
+        await logging_channel.send(options_string)
+
+    elif arg.lower() in options:
+        code = gauth.generate_codes(arg)
+
+    else:
+        await logging_channel.send("Invalid argument. Please select a number from `RON! auth list`.")
 
 token = botinfo.token
 client.run(token)
