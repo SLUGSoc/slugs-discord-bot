@@ -8,6 +8,7 @@ bot_channel_id = 0 # int, id of channel where bot should interact with users (do
 rules_channel_id = 0 # int, id of channel that users are guided to in the challenge
 logging_channel_id = 0 # int, id of channel where all logging messages are sent
 member_role_id = 0 # int, id of server role that is given to users who successfully respond to the challenge
+moderator_role_id = 0 # int, id of server role that has permission to use moderator only features
 
 def welcome(user): # Message sent in intro channel after a successful response from user
         return "Welcome to this server, {0}".format(user)
