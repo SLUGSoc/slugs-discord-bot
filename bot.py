@@ -113,7 +113,7 @@ async def auth(context, arg):
     elif arg.lower() in names:
         option_index = names.index(arg.lower())
         code = gauth.generate_codes(options[option_index])
-        await logging_channel.send(code)
+        await logging_channel.send(">>>" + code)
 
     else:
         await logging_channel.send(">>> Invalid argument. Please select an option from `%auth list`.")
