@@ -47,6 +47,8 @@ async def on_message(message):
                 await member.add_roles(member_role)
                 await intro_channel.send(botinfo.welcome(member.mention))
 
+    await client.process_commands(message)
+
 # Logging Channel
 @client.event
 async def on_raw_message_delete(payload):
@@ -90,24 +92,26 @@ async def auth(context, arg):
     data = gauth.get_database()
     options = list()
     names = list()
+    
     for d in data:
-        options.append(str(len(options)))
+        options.append(len(options))
         names.append(d[0])
 
     if arg.lower() == "list":
-        print("Auth List")
         options_list = list()
-        for o in options:
-            option = "**{})** {}".format(o, names[int(o)])
+        for i in range(0,len(names)):
+            option = "**-** {}".format(names[int(i)])
             options_list.append(option)
-        options_string = '\n'.join(options_list)
+        options_string = ">>> **These are the services using R.O.N. for 2FA:**\n" + '\n'.join(options_list)
         await logging_channel.send(options_string)
 
-    elif arg.lower() in options:
-        code = gauth.generate_codes(arg)
+    elif arg.lower() in names:
+        option_index = names.index(arg.lower())
+        code = gauth.generate_codes(options[option_index])
+        await logging_channel.send(code)
 
     else:
-        await logging_channel.send("Invalid argument. Please select a number from `RON! auth list`.")
+        await logging_channel.send(">>> Invalid argument. Please select an option from `%auth list`.")
 
 token = botinfo.token
 client.run(token)
