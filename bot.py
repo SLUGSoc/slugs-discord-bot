@@ -88,6 +88,11 @@ async def on_member_remove(member):
 async def auth(context, arg):
     logging_channel = client.get_channel(botinfo.logging_channel_id)
     member = context.author
+    member_roles = member.roles
+    guild = client.get_guild(botinfo.guild_id)
+    mod_role = guild.get_role(botinfo.moderator_role_id)
+    if mod_role not in member_roles:
+        return
     
     data = gauth.get_database()
     options = list()
