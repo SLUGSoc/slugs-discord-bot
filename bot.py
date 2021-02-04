@@ -2,7 +2,6 @@
 
 import discord
 import botinfo # Info file containing sensitive info and customized settings
-import sqlite3
 import time
 import os
 import gauth
@@ -23,7 +22,7 @@ async def on_member_join(member):
     join_channel = client.get_channel(botinfo.join_channel_id)
     rules_channel = client.get_channel(botinfo.rules_channel_id)
     
-    await join_channel.send(botinfo.gatekeep(member.mention, rules_channel.mention))
+    await join_channel.send(botinfo.gatekeep(member.mention, rules_channel.mention)) # Issues the join message/challenge
 
 @client.event
 async def on_message(message):
@@ -35,7 +34,7 @@ async def on_message(message):
     member = message.author
     name = member.name
 
-    if botinfo.challenge_response in content.lower(): # I couldn't resist
+    if botinfo.challenge_response in content.lower(): # If speak friend...
         if channel == client.get_channel(botinfo.join_channel_id):
             guild = client.get_guild(botinfo.guild_id)
             member_role = guild.get_role(botinfo.member_role_id)
@@ -45,7 +44,7 @@ async def on_message(message):
                 intro_channel = client.get_channel(botinfo.intro_channel_id)
                 
                 await member.add_roles(member_role)
-                await intro_channel.send(botinfo.welcome(member.mention))
+                await intro_channel.send(botinfo.welcome(member.mention)) # ...then enter
 
     await client.process_commands(message)
 
@@ -57,7 +56,7 @@ async def on_raw_message_delete(payload):
     message = payload.cached_message
     channel = client.get_channel(payload.channel_id)
 
-    if message is None: # Occurs when message cannot be retrieved message cache
+    if message is None: # Occurs when message cannot be retrieved from message cache
         delete_string = ">>> ```css\n[MESSAGE DELETED] [Message ID:] {0}```A message was deleted from {1}, but this message was not found in the message cache.\n".format(payload.message_id, channel.mention)
     else:
         noment_message = message.content.replace("@","*@*") # Stops logged messages mentioning users
@@ -85,12 +84,12 @@ async def on_member_remove(member):
     await logging_channel.send(leave_string)
 
 @client.command()
-async def auth(context, arg):
+async def auth(context, arg): # Provides a user interface for the gauth module
     logging_channel = client.get_channel(botinfo.logging_channel_id)
     member = context.author
     member_roles = member.roles
     guild = client.get_guild(botinfo.guild_id)
-    mod_role = guild.get_role(botinfo.moderator_role_id)
+    mod_role = guild.get_role(botinfo.moderator_role_id) # Only users with a privileged role can request auth codes
     if mod_role not in member_roles:
         return
     

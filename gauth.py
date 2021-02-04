@@ -17,12 +17,12 @@ else:
     conn = sqlite3.connect('secrets.db')
     c = conn.cursor()
 
-def get_database():
+def get_database(): # A method for retrieving the entire database
     c.execute('SELECT * FROM secrets')
     database = c.fetchall()
     return database
 
-def choose_secret():
+def choose_secret(): # The standalone interface
     options = list()
     names = list()
     
@@ -47,7 +47,7 @@ def choose_secret():
         return
     print(generate_codes(choice))
 
-def generate_codes(choice):
+def generate_codes(choice): # The Gauth algorithm
     c.execute('SELECT * FROM secrets')
     data = c.fetchall()
     record = data[choice]
@@ -62,5 +62,5 @@ def generate_codes(choice):
     totp = str(hotp).zfill(6)
     return(totp)
 
-if __name__ == "__main__":
+if __name__ == "__main__": # Does not run the standalone interface if loaded as a module
     choose_secret()
