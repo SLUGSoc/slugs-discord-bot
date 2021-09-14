@@ -18,7 +18,7 @@ async def on_ready():
     print("Ready.")
 
 @client.event
-async def on_member_join(member):
+async def on_member_join(member): # REQUIRES MEMBER INTENTS PERMISSION THRU APP DASH
     join_channel = client.get_channel(botinfo.join_channel_id)
     rules_channel = client.get_channel(botinfo.rules_channel_id)
     
@@ -73,8 +73,19 @@ async def on_message_edit(before, after):
     channel = after.channel
     if before.content == after.content:
         return # Edit detects many subtle changes to the message object, but we only care about the actual words being changed
-    edit_string = '>>> ```css\n"MESSAGE EDITED" "Message ID:" {0}```The following message by **{1}** was edited in {2}:\n\n**Before:**\n*{3}*\n\n**After:**\n*{4}*\n'.format(after.id, (after.author), channel.mention, message_bef, message_aft)
-    await logging_channel.send(edit_string)
+    edit_string = '>>> ```css\n"MESSAGE EDITED" "Message ID:" {0}```The following message by **{1}** was edited in {2}:\n\n**Before:**\n{3}\n\n**After:**\n{4}\n'.format(after.id, after.author, channel.mention, message_bef, message_aft)
+    if len(edit_string) >= 2000: # Discord has a message character limit of 2000. Any message over this will outright fail to send, so it's important to have a failsafe
+        exc_edit_string = '>>> ```css\n"MESSAGE EDITED" "Message ID:" {0}```The following message by **{1}** was edited in {2}. This message exceeds the maximum character limit, and has been included as a text attachment.'.format(after.id, after.author, channel.mention)
+        edit_file_content = 'MESSAGE EDITED\nMessage ID: {0}\n\nThe following message by {1} was edited in {2}\n\nBefore:\n{3}\n\nAfter:\n{4}'.format(after.id, after.author, channel.mention, message_bef, message_aft)
+        with open('edit_text.txt', 'w') as edit_file:
+            edit_file.write(edit_file_content)
+        edit_file.closed
+        with open('edit_text.txt', 'rb') as edit_file:
+            edit_file_attach = discord.File(edit_file,filename="message_edit_{0}.txt".format(after.id))
+        edit_file.closed
+        await logging_channel.send(exc_edit_string, file=edit_file_attach)
+    else:
+        await logging_channel.send(edit_string)
 
 @client.event
 async def on_member_remove(member):
@@ -104,7 +115,7 @@ async def auth(context, arg): # Provides a user interface for the gauth module
     if arg.lower() == "list":
         options_list = list()
         for i in range(0,len(names)):
-            option = "**-** {}".format(names[int(i)])
+            option = "**-** {}".format(names[i])
             options_list.append(option)
         options_string = ">>> **These are the services using R.O.N. for 2FA:**\n" + '\n'.join(options_list)
         await logging_channel.send(options_string)
