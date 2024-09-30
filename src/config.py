@@ -25,7 +25,7 @@ class ServerConfig:
             try:
                 cfg = ServerConfig(cfg_filepath, client)
                 server_configs[cfg.guild.id] = cfg
-            except discord.ClientException as err:
+            except (discord.ClientException, RuntimeError) as err:
                 logger.error(
                     f"Failed to load server config {cfg_filename}: {err}"
                 )
@@ -38,6 +38,11 @@ class ServerConfig:
         self.challenge_response: str = cfg_yaml["info"]["challenge"]
 
         self.guild: Guild = client.get_guild(cfg_yaml["info"]["guild"])
+        if not self.guild:
+            raise RuntimeError(
+                f"Could not get details for guild with ID: {cfg_yaml["info"]["guild"]}. " +
+                f"Has the bot been invited to this server?"
+            )
 
         self.audit_channel: TextChannel = client.get_channel(cfg_yaml["channels"]["audit"])
         self.challenge_channel: TextChannel = client.get_channel(cfg_yaml["channels"]["challenge"])
