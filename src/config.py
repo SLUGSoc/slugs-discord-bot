@@ -40,7 +40,7 @@ class ServerConfig:
         self.guild: Guild = client.get_guild(cfg_yaml["info"]["guild"])
         if not self.guild:
             raise RuntimeError(
-                f"Could not get details for guild with ID: {cfg_yaml["info"]["guild"]}. " +
+                f"Could not get details for guild with ID: {cfg_yaml['info']['guild']}. " +
                 f"Has the bot been invited to this server?"
             )
 

@@ -81,6 +81,6 @@ class MessageTemplates:
         auth_header = "Google Auth Codes"
         auth_string = ""
         for service in secrets:
-            auth_string += f"**{service["name"]}**: {get_totp_token(service["secret"])}\n"
+            auth_string += f"**{service['name']}**: {get_totp_token(service['secret'])}\n"
         auth_footer = "*This message will self-destruct after 30 seconds...*"
         return auth_header, auth_string, auth_footer, Colour.pink()
