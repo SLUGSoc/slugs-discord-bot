@@ -1,0 +1,14 @@
+info:
+  challenge:  !!str open sesame   # Expected response to the challenge
+  guild:      !!int 0             # ID of guild in which bot is being deployed
+channels:
+  audit:      !!int 0             # ID of channel where all logging messages are sent
+  challenge:  !!int 0             # ID of channel where members are asked to respond to the challenge
+  intro:      !!int 0             # ID of channel where members are introduced after succeeding the challenge
+  rules:      !!int 0             # ID of channel listing server rules that users will be directed to on join
+roles:
+  privileged: !!int 0             # ID of minimum role for using the authentication
+  member:     !!int 0             # ID of role to be granted to users that succeed the challenge
+google_auth:
+  - name:     !!str e             # Name of service
+    secret:   !!str e             # Auth secret of service
