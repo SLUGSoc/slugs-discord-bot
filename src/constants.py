@@ -9,4 +9,5 @@ ROOT_DIR = path.dirname(  # slugs-discord-bot
 )
 
 CONFIG_DIR = path.join(ROOT_DIR, "server_configs")
+LOG_DIR = path.join(ROOT_DIR, "logs")
 TEMPLATE_DIR = path.join(ROOT_DIR, "config_templates")

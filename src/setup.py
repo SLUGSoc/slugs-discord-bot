@@ -1,10 +1,13 @@
 from os import listdir, makedirs, path
 from shutil import copy
 
-from src.constants import CONFIG_DIR, ROOT_DIR, TEMPLATE_DIR
+from src.constants import CONFIG_DIR, LOG_DIR, ROOT_DIR, TEMPLATE_DIR
+makedirs(CONFIG_DIR, exist_ok=True)
+makedirs(LOG_DIR, exist_ok=True)
+
 from src.logger import logger
 
-makedirs(CONFIG_DIR, exist_ok=True)
+
 
 setup_required = False
 
