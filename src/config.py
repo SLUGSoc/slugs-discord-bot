@@ -9,7 +9,7 @@ from src.logger import logger
 
 token_path = os.path.join(ROOT_DIR, "token.yaml")
 with open(token_path, "r") as token_file:
-    token = yaml.safe_load(token_file)
+    token = yaml.safe_load(token_file).get("token")
 
 class ServerConfig:
     @staticmethod
