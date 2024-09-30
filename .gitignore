@@ -1,7 +1,5 @@
-/__pycache__/
-/old/botinfo.py
-/secrets.db
-/edit_text.txt
+server_configs/
+token.yaml
 
 # Template sourced from https://github.com/github/gitignore/blob/main/Python.gitignore
 
