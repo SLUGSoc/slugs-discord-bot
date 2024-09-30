@@ -16,3 +16,10 @@ It performs the following basic moderation tasks:
 
 ## Usage
 
+- Clone repository
+- Create a virtual environment
+- `pip install -r requirements.txt`
+- `python main.py`
+- Follow prompts for config file setup
+- `python main.py`
+- Enjoy
