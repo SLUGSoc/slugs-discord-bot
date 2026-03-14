@@ -1,0 +1,11 @@
+name: ron
+
+services:
+  ron:
+    container_name: ron
+    image: ghcr.io/slugsoc/slugs-discord-bot:latest
+    volumes:
+      - ./token.yaml:/app/token.yaml
+      - ./logs:/app/logs
+      - ./server_configs:/app/server_configs
+    restart: unless-stopped
