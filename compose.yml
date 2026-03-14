@@ -3,7 +3,7 @@ name: ron
 services:
   ron:
     container_name: ron
-    image: ghcr.io/slugsoc/slugs-discord-bot:latest
+    image: ghcr.io/slugsoc/slugs-discord-bot:master
     volumes:
       - ./token.yaml:/app/token.yaml
       - ./logs:/app/logs
